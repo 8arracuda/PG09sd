@@ -1,0 +1,32 @@
+<div ng-controller="SectionListCtrl">
+    <a onclick="location.href='/'" class="btn btn-default">
+        <span class="glyphicon glyphicon-refresh"></span> reload the app</a>
+
+    <div class="list-group">
+        <li class="list-group-item">
+            (showing {{ sections.length }})
+        </li>
+        <!--<li ng-repeat="section in sections" class="list-group-item">-->
+        <!--<a href="#{{ section.id }}/{{ section.fileName }}/{{ section.controllerName }}">-->
+        <!--{{ section.nameLong }}-->
+        <!--</a>-->
+        <!--</li>-->
+        <a ng-repeat="section in sections"
+           class="list-group-item"
+           href="#{{ section.id }}/{{ section.fileName }}/{{ section.controllerName }}">
+
+            {{ section.nameLong }}
+
+        </a>
+    </div>
+
+
+    <!--<ul class="list-group">-->
+    <!--<li class="list-group-item">Cras justo odio</li>-->
+    <!--<li class="list-group-item">Dapibus ac facilisis in</li>-->
+    <!--<li class="list-group-item">Morbi leo risus</li>-->
+    <!--<li class="list-group-item">Porta ac consectetur ac</li>-->
+    <!--<li class="list-group-item">Vestibulum at eros</li>-->
+    <!--</ul>-->
+
+</div>

@@ -1,0 +1,225 @@
+<!-- <!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html ng-app="sdApp">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+    <script type="text/javascript" src="js/modernizr-latest.js"></script>
+    <script type="text/javascript" src="js/angularJS_1.2.18/angular.min.js"></script>
+    <script type="text/javascript" src="js/angularJS_1.2.18/angular-route.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <title>Hello World</title>
+</head>
+<body>
+
+<div ng-view></div>
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript">
+    app.initialize();
+
+    var sdApp = angular.module('sdApp', ['ngRoute']);
+
+    lsTest = '1';
+
+    sdApp.config(function ($routeProvider) {
+
+        $routeProvider.
+                when('/', {
+                    templateUrl: 'template-list.html',
+                    controller: 'SectionListCtrl'
+                }).
+                when('/:sectionId/:fileName/:controllerName', {
+                    templateUrl: function (params) {
+                        return params.fileName;
+                    },
+                    controllerProvider: function (params) {
+                        return params.controllerName;
+                    }
+                }).
+                otherwise({
+                    redirectTo: '/'
+                });
+
+
+    });
+
+    sdApp.controller('SectionListCtrl', function ($scope, sections) {
+
+        sections.list(function (sections) {
+            $scope.sections = sections;
+        });
+    });
+
+    sdApp.controller('SectionDetailCtrl', function ($scope, $routeParams, sections) {
+
+        sections.find($routeParams.sectionId, function (selectedSection) {
+            $scope.selectedSection = selectedSection;
+        });
+    });
+
+    sdApp.controller('LocalStorageCtrl', function ($scope, $routeParams, sections) {
+
+        sections.find($routeParams.sectionId, function (selectedSection) {
+            $scope.selectedSection = selectedSection;
+        });
+
+        $( "#but_saveOneItem" ).on( "click", function() {
+            localStorage.setItem('foo', 'bar');
+            localStorage.setItem('test', 'foo');
+            $scope.localStorage = localStorage;
+        });
+
+        $( "#but_deleteOneItem" ).on( "click", function() {
+            localStorage.removeItem('foo');
+            $scope.localStorage = localStorage;
+        });
+
+
+        $( "#but_showStoredItems" ).on( "click", function() {
+            alert('there are ' + localStorage.length + ' items in localstorage');
+
+        });
+            $scope.localStorage = localStorage;
+
+
+
+        //$('#lsmodel').on("change", function() {
+        //    alert('d');
+        //});
+
+
+
+
+
+
+    });
+
+    sdApp.controller('SessionStorageCtrl', function ($scope, $routeParams, sections) {
+
+        sections.find($routeParams.sectionId, function (selectedSection) {
+            $scope.selectedSection = selectedSection;
+        });
+
+    });
+
+    sdApp.controller('WebSqlCtrl', function ($scope, $routeParams, sections) {
+
+        sections.find($routeParams.sectionId, function (selectedSection) {
+            $scope.selectedSection = selectedSection;
+        });
+
+    });
+
+    sdApp.controller('IndexedDbCtrl', function ($scope, $routeParams, sections) {
+
+        sections.find($routeParams.sectionId, function (selectedSection) {
+            $scope.selectedSection = selectedSection;
+        });
+
+    });
+
+    sdApp.controller('PGSQLiteCtrl', function ($scope, $routeParams, sections) {
+
+        sections.find($routeParams.sectionId, function (selectedSection) {
+            $scope.selectedSection = selectedSection;
+        });
+
+    });
+
+    sdApp.controller('PGMoreCtrl', function ($scope, $routeParams, sections) {
+
+        sections.find($routeParams.sectionId, function (selectedSection) {
+            $scope.selectedSection = selectedSection;
+        });
+
+    });
+
+    sdApp.factory('sections', function () {
+
+        var sections = [
+            {'id': '1',
+                'fileName': 'indexedDb.html',
+                'nameShort': 'indexedDB',
+                'nameLong': 'IndexedDB',
+                'controllerName': 'IndexedDbCtrl'
+            },
+            {'id': '2',
+                'fileName': 'webSql.html',
+                'nameShort': 'webSql',
+                'nameLong': 'Web SQL',
+                'controllerName': 'WebSqlCtrl'
+            },
+            {'id': '3',
+                'fileName': 'localStorage.html',
+                'nameShort': 'localStorage',
+                'nameLong': 'LocalStorage',
+                'controllerName': 'LocalStorageCtrl'
+            },
+            {'id': '4',
+                'fileName': 'sessionStorage.html',
+                'nameShort': 'sessionStorage',
+                'nameLong': 'SessionStorage',
+                'controllerName': 'SessionStorageCtrl'
+            },
+            {'id': '5',
+                'fileName': 'PG_SQLite.html',
+                'nameShort': 'PG_SQLite',
+                'nameLong': 'PhoneGap SQLite Plugin',
+                'controllerName': 'PGSQLiteCtrl'
+            },
+            {'id': '6',
+                'fileName': 'PG_more.html',
+                'nameShort': 'PG_more',
+                'nameLong': 'PhoneGap ...more...',
+                'controllerName': 'PGMoreCtrl'
+            }
+        ];
+
+        return {
+            list: function (callback) {
+                callback(sections);
+            },
+            find: function (sectionId, callback) {
+                var selectedSection = sections.filter(function (entry) {
+                    return entry.id === sectionId;
+                })[0];
+
+                callback(selectedSection);
+            }
+
+        };
+    });
+
+
+</script>
+</body>
+</html>
